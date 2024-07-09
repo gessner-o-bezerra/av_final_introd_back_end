@@ -8,20 +8,22 @@ app.use(express.json()); // Middleware para parsear JSON
 app.use(cors()); // Middleware para habilitar CORS
 
 // Importa os módulos de rotas
-const travelRouter = require('./routes/cars');
-const carsRouter = require('./routes/users');
+const messageRouter = require('./routes/messages');
+const usersModule = require('./routes/users');
 
+// Acessando o router do Express
+const usersRouter = usersModule.router;
 
 // Rota inicial
 app.get('/', (req, res) => {
-  res.status(200).send('Bem vindo à API_Carros_E_Usuários_CRUD');
+  res.status(200).send('Bem vindo à API_Usuários_E_Mensagens_CRUD');
 });
 
 // Monta os roteadores nos caminhos base
-app.use('/cars', travelRouter);  // Monta as rotas de signup no caminho base /signup
-app.use('/users', carsRouter);
+app.use('/messages', messageRouter);
+app.use('/users', usersRouter);
 
 // Inicia o servidor
-app.listen(8080, () => {
+app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });
