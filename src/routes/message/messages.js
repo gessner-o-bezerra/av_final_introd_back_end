@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const users = require('./users'); // Importe a lista de usuários
+const users = require('../users/users'); // Importe a lista de usuários
+const { validateMessage } = require('../middleware/validation');
 
 
 
@@ -10,12 +11,6 @@ const generateId = () => {
 let msgUsers = users.otherExport;
 let messages = [];
 
-// Funções de validação
-const validateMessage = (message) => {
-  if (!message.title) return 'Por favor, verifique se passou o título.';
-  if (!message.description) return 'Por favor, verifique se passou a descrição.';
-  return null;
-};
 
 // Endpoint de criação de mensagem
 router.post('/message', (req, res) => {
@@ -43,7 +38,10 @@ router.post('/message', (req, res) => {
 
   messages.push(newMessage);
 
-  res.status(201).send(`Mensagem criada com sucesso! ${JSON.stringify(newMessage)}`);
+  res.status(201).json({
+    message: 'Mensagem criada com sucesso!',
+    data: newMessage
+  });
 });
 
 // Endpoint de leitura de mensagens
@@ -59,7 +57,10 @@ router.get('/message/:email', (req, res) => {
   // Filtrar mensagens do usuário
   const userMessages = messages.filter(message => message.userId === user.id);
 
-  res.status(200).send(`Seja bem-vinde! ${JSON.stringify(userMessages)}`);
+  res.status(200).json({
+    message: 'Seja bem-vinde!',
+    data: userMessages
+  });
 });
 
 // Endpoint de atualização de mensagem
@@ -77,7 +78,10 @@ router.put('/message/:id', (req, res) => {
   if (title) message.title = title;
   if (description) message.description = description;
 
-  res.status(200).send(`Mensagem atualizada com sucesso! ${JSON.stringify(message)}`);
+  res.status(200).json({
+    message: 'Mensagem atualizada com sucesso!',
+    data: message
+  });
 });
 
 // Endpoint de exclusão de mensagem

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
+const { validateUser, validateLogin } = require('../middleware/validation');
+const { hashPassword, comparePasswords } = require('../hash/hash');
 
 const generateId = () => {
   return users.length + 1;
@@ -11,18 +13,7 @@ const generateId = () => {
 let users = [];
 
 // Funções de validação
-const validateUser = (user) => {
-  if (!user.name) return 'Por favor, verifique se passou o nome.';
-  if (!user.email) return 'Por favor, verifique se passou o email.';
-  if (!user.password) return 'Por favor, verifique se passou a senha.';
-  return null;
-};
 
-const validateLogin = (user) => {
-  if (!user.email) return 'Por favor, verifique se passou o email.';
-  if (!user.password) return 'Por favor, verifique se passou a senha.';
-  return null;
-};
 
 // Endpoint de criação de conta
 router.post('/signup', async (req, res) => {
@@ -40,7 +31,7 @@ router.post('/signup', async (req, res) => {
   }
 
   // Criação do novo usuário
-  const hashedPassword = await bcrypt.hash(password, 10);
+  const hashedPassword = await hashPassword(password, 10);
   const newUser = {
     id: generateId(),
     name,
@@ -70,7 +61,7 @@ router.post('/login', async (req, res) => {
   }
 
   // Verificar a senha
-  const isPasswordValid = await bcrypt.compare(password, user.password);
+  const isPasswordValid = await comparePasswords(password, user.password);
   if (!isPasswordValid) {
     return res.status(400).send('Senha inválida');
   }
