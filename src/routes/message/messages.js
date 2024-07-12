@@ -91,7 +91,7 @@ router.delete('/message/:id', (req, res) => {
   const { id } = req.params;
 
   // Encontrar o índice da mensagem
-  const messageIndex = messages.findIndex(message => message.id === parseInt(id));
+  const messageIndex = messages.findIndex(message => message.id === id);
   if (messageIndex === -1) {
     return res.status(404).send('Mensagem não encontrada, verifique o identificador em nosso banco');
   }
