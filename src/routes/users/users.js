@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { validateUser, validateLogin, uniqueId } = require('../middleware/validation');
 const { hashPassword, comparePasswords } = require('../hash/hash');
-const { v4, uuidv4 }  = require('uuid') ;
+const {  v4: uuidv4 }  = require('uuid') ;
 
 //modelo de função para gerar ID
 

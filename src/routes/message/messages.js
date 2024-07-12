@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const users = require('../users/users'); // Importe a lista de usuários
 const { validateMessage } = require('../middleware/validation');
-const { v4, uuidv4 }  = require('uuid') ;
+const { v4: uuidv4 }  = require('uuid') ;
 
 
 
