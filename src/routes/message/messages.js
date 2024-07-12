@@ -71,7 +71,7 @@ router.put('/message/:id', (req, res) => {
   const { title, description } = req.body;
 
   // Encontrar a mensagem
-  const message = messages.find(message => message.id === parseInt(id));
+  const message = messages.find(message => message.id === id);
   if (!message) {
     return res.status(404).send('Por favor, informe um id válido da mensagem');
   }
