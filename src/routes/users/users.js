@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { validateUser, validateLogin } = require('../middleware/validation');
+const { validateUser, validateLogin, uniqueId } = require('../middleware/validation');
 const { hashPassword, comparePasswords } = require('../hash/hash');
+const { v4, uuidv4 }  = require('uuid') ;
 
-const generateId = () => {
-  return users.length + 1;
-};
+//modelo de função para gerar ID
+
+/* const generateId = () => {
+//   return users.length + 1;
+ };*/
 
 
 
@@ -33,7 +36,7 @@ router.post('/signup', async (req, res) => {
   // Criação do novo usuário
   const hashedPassword = await hashPassword(password, 10);
   const newUser = {
-    id: generateId(),
+    id: uuidv4(),
     name,
     email,
     password: hashedPassword
