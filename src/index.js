@@ -16,7 +16,7 @@ const usersRouter = usersModule.router;
 
 // Rota inicial
 app.get('/', (req, res) => {
-  res.status(200).send('Bem vindo à aplicação');
+  res.status(200).send('Bem vindo à aplicação 8080');
 });
 
 // Monta os roteadores nos caminhos base

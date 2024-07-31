@@ -47,11 +47,16 @@ router.post('/message', (req, res) => {
 });
 
 // Endpoint de leitura de mensagens
-router.get('/message/:email', (req, res) => {
-  const { email } = req.params;
+router.get('/message/:userId', (req, res) => {
+  const { userId } = req.params;
+
+  const { page, perPage } = request.query;
+
+  const currentPage = parseInt(page) || 1;
+  const itemsPerPage = parseInt(perPage) || 10;
 
   // Verificar se o email está cadastrado
-  const user = msgUsers.find(user => user.email === email);
+  const user = msgUsers.find(user => user.id === userId);
   if (!user) {
     return res.status(404).send('Email não encontrado, verifique ou crie uma conta');
   }
@@ -59,10 +64,23 @@ router.get('/message/:email', (req, res) => {
   // Filtrar mensagens do usuário
   const userMessages = messages.filter(message => message.userId === user.id);
 
-  res.status(200).json({
-    message: 'Seja bem-vinde!',
-    data: userMessages
-  });
+
+  
+  const startIndex = (currentPage - 1) * itemsPerPage
+  
+  const endIndex = startIndex + itemsPerPage
+
+  const paginatedNotes = userMessages.slice(startIndex, endIndex)
+
+  const totalItems = userMessages.length // quantidade de notas no array
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+  response.status(200).json({
+    userMessages: paginatedNotes,
+    totalPages,
+    currentPage
+  })
 });
 
 // Endpoint de atualização de mensagem
