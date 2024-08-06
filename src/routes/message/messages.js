@@ -50,7 +50,7 @@ router.post('/message', (req, res) => {
 router.get('/message/:userId', (req, res) => {
   const { userId } = req.params;
 
-  const { page, perPage } = request.query;
+  const { page, perPage } = req.query;
 
   const currentPage = parseInt(page) || 1;
   const itemsPerPage = parseInt(perPage) || 10;
