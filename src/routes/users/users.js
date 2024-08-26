@@ -69,7 +69,11 @@ router.post('/login', async (req, res) => {
     return res.status(400).send('Senha inválida');
   }
 
-  res.status(200).send(`Seja bem vindo ${user.name}! Pessoa usuária logada com sucesso!`);
+  res.status(200).json({
+    message: `Seja bem-vindo ${user.name}! Pessoa usuária logada com sucesso!`,
+    id: user.id,
+    email: user.email
+  });
 });
 
 module.exports = {
