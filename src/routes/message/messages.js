@@ -76,7 +76,7 @@ router.get('/message/:userId', (req, res) => {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage)
 
-  response.status(200).json({
+  res.status(200).json({
     userMessages: paginatedNotes,
     totalPages,
     currentPage
